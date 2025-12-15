@@ -80,9 +80,8 @@ function App() {
     console.log('[App] contactApiEnabled:', contactApiEnabled);
   }
 
-  const resumeHref = process.env.REACT_APP_FRONTEND_URL
-    ? `${process.env.REACT_APP_FRONTEND_URL}/resume.pdf`
-    : '#';
+  // Always serve resume from public folder path
+  const resumeHref = '/resume.pdf';
 
   const onSubmitContact = async (e) => {
     e.preventDefault();
@@ -106,8 +105,8 @@ function App() {
         alert('Failed to send message. Please try again later.');
       }
     } else {
-      // fallback: mailto
-      const mailto = `mailto:your.email@example.com?subject=${encodeURIComponent(
+      // fallback: mailto to candidate email from resume summary
+      const mailto = `mailto:kishoren6753@gmail.com?subject=${encodeURIComponent(
         `Portfolio Contact from ${payload.name || 'Visitor'}`
       )}&body=${encodeURIComponent(`${payload.message || ''}\n\nReply to: ${payload.email || ''}`)}`;
       window.location.href = mailto;
@@ -134,16 +133,17 @@ function App() {
               height="128"
             />
             <div className="about-text">
-              <h2 className="name">Jane Doe</h2>
-              <p className="role">Full-Stack Developer</p>
+              <h2 className="name">Kishore N</h2>
+              <p className="role">Data Analyst</p>
               <p className="bio">
-                I build reliable, accessible web applications with clean, maintainable code.
-                My focus areas include React, Node.js, and modern CSS—delivering performant
-                experiences with thoughtful UX.
+                Data Analyst with hands-on experience in data cleaning, transformation, and visualization.
+                Skilled in Python and SQL (Postgres) with a focus on reproducible analysis, data quality,
+                and communicating insights to diverse stakeholders.
               </p>
               <div className="social-links" aria-label="Social links">
-                <a href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub" className="btn btn-outline">GitHub</a>
-                <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="btn btn-outline">LinkedIn</a>
+                {/* Placeholders omitted when unknown */}
+                {/* GitHub/LinkedIn were not provided in summary; keeping subtle placeholders off to avoid inventing data */}
+                <a href="mailto:kishoren6753@gmail.com" className="btn btn-outline" aria-label="Email Kishore">Email</a>
               </div>
             </div>
           </div>
@@ -151,23 +151,60 @@ function App() {
 
         <Section id="projects" title="Projects">
           <div className="projects-grid" role="list">
-            {projects.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
+            {/* Replace project cards with resume-extracted projects */}
+            <ProjectCard
+              key="proj-retail-forecast"
+              project={{
+                title: 'Retail Demand Forecasting',
+                description: 'Forecasting retail demand with emphasis on data preparation and analysis.',
+                tech: ['Python', 'SQL', 'Seaborn', 'Matplotlib'],
+                links: []
+              }}
+            />
+            <ProjectCard
+              key="proj-delivery-time"
+              project={{
+                title: 'Delivery Time Prediction',
+                description: 'Predicting delivery times; emphasized cleaning, modeling readiness, and visualization.',
+                tech: ['Python', 'SQL', 'Seaborn', 'Matplotlib'],
+                links: []
+              }}
+            />
           </div>
         </Section>
 
         <Section id="resume" title="Resume">
           <div className="resume-box">
             <p className="resume-summary">
-              A concise summary of professional experience, core competencies, and education.
-              Download the resume for detailed information.
+              Intern (Data/Analytics) @ Gradtwin — Built real-time analytics dashboards; cleaned 5,000+ records
+              with Python/Pandas to improve data accuracy; developed visualizations that improved decision-making by ~15%.
             </p>
+
+            <div className="section" style={{ padding: 0 }}>
+              <header className="section-header">
+                <h2 id="skills-title" style={{ fontSize: 20, margin: 0 }}>Skills</h2>
+              </header>
+              <p className="bio" style={{ marginTop: 0 }}>
+                Programming: Python, SQL • Databases: Postgres • Visualization: Seaborn, Matplotlib •
+                Analytics: Data cleaning, transformation, dashboards • Communication: Presenting insights to mixed audiences
+              </p>
+            </div>
+
+            <div className="section" style={{ padding: 0 }}>
+              <header className="section-header">
+                <h2 id="education-title" style={{ fontSize: 20, margin: 0 }}>Education</h2>
+              </header>
+              <p className="bio" style={{ marginTop: 0 }}>
+                Artificial Intelligence and Data Science
+                {/* Institution and dates not specified in summary */}
+              </p>
+            </div>
+
             <a
               href={resumeHref}
               className="btn btn-primary"
-              aria-label="Download Resume"
-              target={resumeHref === '#' ? '_self' : '_blank'}
+              aria-label="Download Resume (PDF)"
+              target="_blank"
               rel="noreferrer"
             >
               Download Resume
@@ -193,7 +230,7 @@ function App() {
               <button type="submit" className="btn btn-success">Send Message</button>
               {!contactApiEnabled && (
                 <p className="help-text" role="note">
-                  Tip: Enable contact API by adding "contact_api=1" to REACT_APP_FEATURE_FLAGS and setting REACT_APP_BACKEND_URL.
+                  Tip: Or email directly at <a href="mailto:kishoren6753@gmail.com">kishoren6753@gmail.com</a>.
                 </p>
               )}
             </div>
@@ -202,7 +239,7 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <p>© {new Date().getFullYear()} Jane Doe. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Kishore N. All rights reserved.</p>
       </footer>
     </div>
   );
